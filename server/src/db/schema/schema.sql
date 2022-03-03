@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS spruceDB;
+CREATE DATABASE spruceDB;
+
+USE spruceDB;
