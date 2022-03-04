@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import dotenv from 'dotenv';
 
-import { Booking } from '../../models';
+import { Booking, Address } from '../../models';
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ const connection = createConnection({
     username: process.env.USER,
     password: process.env.PASSWORD,
     database: process.env.DB,
-    entities: [Booking]
+    entities: [Booking, Address]
 });
 
 export default connection;
