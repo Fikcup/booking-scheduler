@@ -1,5 +1,6 @@
 import express from 'express';
 import connection from './db/config/connection';
+import routes from './routes';
 
 export const app = express();
 const PORT = process.env.PORT || 3001;
@@ -8,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(routes);
 
 connection
     .then(() => {
