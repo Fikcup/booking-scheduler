@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import {
     IsEmail,
     IsDate,
@@ -38,7 +38,7 @@ export class Booking {
     email: string;
 
     @OneToOne(() => Address)
-    @Column()
+    @JoinColumn()
     @Min(5)
     @Max(75)
     address: Address;
