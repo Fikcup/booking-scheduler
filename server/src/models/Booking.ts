@@ -1,4 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import {
+    IsEmail,
+    IsDate,
+    Min,
+    Max,
+    MinDate,
+    MaxDate
+} from 'class-validator';
+import { Address } from './Address';
+
+export const futureDate = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth();
+    const year = today.getFullYear() + 1;
+
+    return new Date(`${month} ${day} ${year}`);
+}
 
 export enum BookingType {
     HOUSEKEEPING = 'housekeeping',
@@ -11,14 +29,19 @@ export class Booking {
     id: number;
 
     @Column()
+    @Min(2)
+    @Max(50)
     name: string;
 
     @Column()
+    @IsEmail()
     email: string;
 
-    // TODO: convert to reference another entity
+    @OneToOne(() => Address)
     @Column()
-    address: string;
+    @Min(5)
+    @Max(75)
+    address: Address;
 
     @Column({
         type: 'enum',
@@ -29,7 +52,10 @@ export class Booking {
     @Column({
         type: 'date'
     })
-    date: string;
+    @IsDate()
+    @MinDate(new Date())
+    @MaxDate(futureDate())
+    date: Date;
 
     @Column({
         type: 'time'
