@@ -60,5 +60,5 @@ export class Booking {
     @Column({
         type: 'time'
     })
-    time: string;
+    time: Date;
 }

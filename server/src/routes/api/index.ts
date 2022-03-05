@@ -1,6 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
-router.get('/bookings');
+import bookingRoutes from './bookings-routes';
+
+router.use('/bookings', bookingRoutes);
 
 export default router;
