@@ -63,7 +63,7 @@ const bookingController = {
             res.status(500).send({ message: 'Form data invalid' });
         }
 
-        res.status(200).send(booking);
+        res.status(200).send(bookingObj);
     }
 }
 
