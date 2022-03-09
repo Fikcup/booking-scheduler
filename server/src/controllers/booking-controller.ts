@@ -6,9 +6,10 @@ import AddressDto from '../dtos/address.dto';
 
 const bookingController = {
     async getBookings(req: Request, res: Response) {
-        const bookings = getConnection()
-            .getRepository(Booking)
-            .createQueryBuilder('bookings')
+        const bookings = await getConnection()
+            .createQueryBuilder()
+            .select('booking')
+            .from(Booking, 'booking')
             .getMany();
 
         res.status(200).send(bookings);
