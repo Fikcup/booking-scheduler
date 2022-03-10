@@ -13,6 +13,7 @@ import {
     SelectChangeEvent,
     FormControl
 } from '@mui/material';
+import axios from 'axios';
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -47,16 +48,68 @@ const style = {
 };
 
 const CreateBooking = () => {
+    // TODO: add form field validation
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [street, setStreet] = React.useState('');
+    const [city, setCity] = React.useState('');
+    const [state, setState] = React.useState('');
+    const [zip, setZip] = React.useState('');
     const [type, setType] = React.useState('');
-    const [date, setDate] = React.useState(null);
+    const [date, setDate] = React.useState<Date | null>(new Date());
     const [time, setTime] = React.useState<Date | null>(new Date());
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setType(event.target.value);
+    const handleTypeChange = (e: SelectChangeEvent) => {
+        setType(e.target.value);
     };
+
+    const handleNameChange = (e: any) => {
+        setName(e.target.value);
+    };
+
+    const handleEmailChange = (e: any) => {
+        setEmail(e.target.value);
+    };
+
+    const handleStreetChange = (e: any) => {
+        setStreet(e.target.value);
+    };
+
+    const handleCityChange = (e: any) => {
+        setCity(e.target.value);
+    };
+
+    const handleStateChange = (e: any) => {
+        setState(e.target.value);
+    };
+
+    const handleZipChange = (e: any) => {
+        setZip(e.target.value);
+    };
+
+    const handleSubmit = () => {
+        const formData = {
+            name,
+            email,
+            street,
+            city,
+            state,
+            zip,
+            type,
+            date: date!.toISOString().slice(0, 9),
+            time: time!.toISOString().slice(11, 19)
+        }
+
+        axios.post('http://localhost:3001/api/bookings', formData)
+            .then(data => {
+                console.log(data.data);
+            })
+            .catch(err => console.error(err));
+    }
 
     return (
         <div>
@@ -71,12 +124,12 @@ const CreateBooking = () => {
                 <Box sx={style}>
                     <h2 id="unstyled-modal-title">Create booking</h2>
                     <form>
-                        <TextField id="outlined-basic" label="Name" variant="outlined" />
-                        <TextField id="outlined-basic" label="Email" variant="outlined" />
-                        <TextField id="outlined-basic" label="Street Address" variant="outlined" />
-                        <TextField id="outlined-basic" label="City" variant="outlined" />
-                        <TextField id="outlined-basic" label="State" variant="outlined" />
-                        <TextField id="outlined-basic" label="Zip code" variant="outlined" />
+                        <TextField id="outlined-basic" label="Name" variant="outlined" value={name} onChange={handleNameChange}/>
+                        <TextField id="outlined-basic" label="Email" variant="outlined" value={email} onChange={handleEmailChange}/>
+                        <TextField id="outlined-basic" label="Street Address" variant="outlined" value={street} onChange={handleStreetChange}/>
+                        <TextField id="outlined-basic" label="City" variant="outlined" value={city} onChange={handleCityChange}/>
+                        <TextField id="outlined-basic" label="State" variant="outlined" value={state} onChange={handleStateChange}/>
+                        <TextField id="outlined-basic" label="Zip code" variant="outlined" value={zip} onChange={handleZipChange}/>
                         <FormControl sx={{ minWidth: 225 }}>
                             <InputLabel id="demo-simple-select-helper-label">Booking type</InputLabel>
                             <Select
@@ -84,7 +137,7 @@ const CreateBooking = () => {
                                 id="demo-simple-select-helper"
                                 value={type}
                                 label="Booking type"
-                                onChange={handleChange}
+                                onChange={handleTypeChange}
                             >
                                 <MenuItem value={'housekeeping'}>Housekeeping</MenuItem>
                                 <MenuItem value={'dog walk'}>Dog Walk</MenuItem>
@@ -110,6 +163,7 @@ const CreateBooking = () => {
                                 renderInput={(params) => <TextField {...params} />}
                             />
                         </LocalizationProvider>
+                        <Button variant="contained" className="create-btn" onClick={handleSubmit}>Create booking</Button>
                     </form>
                 </Box>
             </StyledModal>
