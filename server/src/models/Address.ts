@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { IsOptional, IsNotEmpty, Matches } from 'class-validator';
+import { IsNotEmpty, Matches } from 'class-validator';
 
 @Entity()
 export class Address {
@@ -10,12 +10,6 @@ export class Address {
     @IsNotEmpty()
     @Matches(/[,#-\/\s\!\@\$.....]/gi)
     street: string;
-
-    @Column({
-        nullable: true
-    })
-    @IsOptional()
-    apt: string;
 
     @Column({
         length: 50
