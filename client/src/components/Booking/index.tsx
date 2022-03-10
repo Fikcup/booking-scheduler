@@ -44,7 +44,10 @@ const Booking = () => {
                         >
                             <TableCell align="center">{booking.name}</TableCell>
                             <TableCell align="center">{booking.email}</TableCell>
-                            <TableCell align="center">{booking.address}</TableCell>
+                            <TableCell align="center">
+                                {booking.address.street} <br />
+                                {booking.address.city}, {booking.address.state}, {booking.address.zip}
+                            </TableCell>
                             <TableCell align="center">{booking.type}</TableCell>
                             <TableCell align="center">{booking.date} at {booking.time}</TableCell>
                         </TableRow>
