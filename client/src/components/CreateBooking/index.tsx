@@ -113,7 +113,7 @@ const CreateBooking = () => {
 
     return (
         <div>
-            <Button variant="contained" className="create-btn" onClick={handleOpen}>Create booking</Button>
+            <Button variant="contained" className="create-btn" onClick={handleOpen} style={{float: 'right', marginTop: '2rem'}}>Create booking</Button>
             <StyledModal
                 aria-labelledby="unstyled-modal-title"
                 aria-describedby="unstyled-modal-description"
@@ -155,7 +155,7 @@ const CreateBooking = () => {
                         </LocalizationProvider>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <TimePicker
-                                label="Basic example"
+                                label="Booking Time"
                                 value={time}
                                 onChange={(newTime) => {
                                     setTime(newTime);
