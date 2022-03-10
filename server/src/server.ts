@@ -1,4 +1,6 @@
 import express from 'express';
+import cors from 'cors';
+
 import connection from './db/config/connection';
 import routes from './routes';
 
@@ -9,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(cors());
 app.use(routes);
 
 connection
