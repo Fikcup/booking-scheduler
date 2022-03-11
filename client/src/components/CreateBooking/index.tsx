@@ -11,7 +11,9 @@ import {
     Select,
     MenuItem,
     SelectChangeEvent,
-    FormControl
+    FormControl,
+    Paper,
+    Grid
 } from '@mui/material';
 import axios from 'axios';
 
@@ -39,7 +41,7 @@ const Backdrop = styled('div')`
 `;
 
 const style = {
-    width: 400,
+    width: 750,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     p: 2,
@@ -109,6 +111,9 @@ const CreateBooking = () => {
                 console.log(data.data);
             })
             .catch(err => console.error(err));
+        
+        handleClose();
+        window.location.reload();
     }
 
     return (
@@ -121,51 +126,117 @@ const CreateBooking = () => {
                 onClose={handleClose}
                 BackdropComponent={Backdrop}
             >
-                <Box sx={style}>
-                    <h2 id="unstyled-modal-title">Create booking</h2>
-                    <form>
-                        <TextField id="outlined-basic" label="Name" variant="outlined" value={name} onChange={handleNameChange}/>
-                        <TextField id="outlined-basic" label="Email" variant="outlined" value={email} onChange={handleEmailChange}/>
-                        <TextField id="outlined-basic" label="Street Address" variant="outlined" value={street} onChange={handleStreetChange}/>
-                        <TextField id="outlined-basic" label="City" variant="outlined" value={city} onChange={handleCityChange}/>
-                        <TextField id="outlined-basic" label="State" variant="outlined" value={state} onChange={handleStateChange}/>
-                        <TextField id="outlined-basic" label="Zip code" variant="outlined" value={zip} onChange={handleZipChange}/>
-                        <FormControl sx={{ minWidth: 225 }}>
-                            <InputLabel id="demo-simple-select-helper-label">Booking type</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                                value={type}
-                                label="Booking type"
-                                onChange={handleTypeChange}
-                            >
-                                <MenuItem value={'housekeeping'}>Housekeeping</MenuItem>
-                                <MenuItem value={'dog walk'}>Dog Walk</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                                label="Booking Date"
-                                value={date}
-                                onChange={(date) => {
-                                    setDate(date);
-                                }}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </LocalizationProvider>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <TimePicker
-                                label="Booking Time"
-                                value={time}
-                                onChange={(newTime) => {
-                                    setTime(newTime);
-                                }}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </LocalizationProvider>
-                        <Button variant="contained" className="create-btn" onClick={handleSubmit}>Create booking</Button>
-                    </form>
-                </Box>
+                <Paper>
+                    <Box sx={style}>
+                        <h2 id="unstyled-modal-title">Create booking</h2>
+                        <form>
+                        <Grid container spacing={4} justify-content="space-between">
+                            <Grid item xs={6}>
+                                <TextField 
+                                    id="outlined-basic" 
+                                    label="Name" 
+                                    variant="outlined" 
+                                    value={name} 
+                                    onChange={handleNameChange}
+                                    sx={{ minWidth: 300 }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl required sx={{ minWidth: 300 }} >
+                                    <InputLabel id="demo-simple-select-helper-label">Booking type</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-helper-label"
+                                        id="demo-simple-select-helper"
+                                        value={type}
+                                        label="Booking type"
+                                        onChange={handleTypeChange}
+                                    >
+                                        <MenuItem value={'housekeeping'}>Housekeeping</MenuItem>
+                                        <MenuItem value={'dog walk'}>Dog Walk</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField 
+                                    id="outlined-basic" 
+                                    label="Email" 
+                                    variant="outlined" 
+                                    value={email} 
+                                    onChange={handleEmailChange} 
+                                    sx={{ minWidth: 300 }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns} >
+                                    <DatePicker
+                                        label="Booking Date"
+                                        value={date}
+                                        onChange={(date) => {
+                                            setDate(date);
+                                        }}
+                                        renderInput={(params) => <TextField {...params} sx={{ minWidth: 300 }} />}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField 
+                                    id="outlined-basic" 
+                                    label="Street Address" 
+                                    variant="outlined" 
+                                    value={street} 
+                                    onChange={handleStreetChange} 
+                                    sx={{ minWidth: 300 }} 
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns} >
+                                    <TimePicker
+                                        label="Booking Time"
+                                        value={time}
+                                        onChange={(newTime) => {
+                                            setTime(newTime);
+                                        }}
+                                        renderInput={(params) => <TextField {...params} sx={{ minWidth: 300 }} />}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField 
+                                    id="outlined-basic" 
+                                    label="City" 
+                                    variant="outlined"
+                                    value={city} 
+                                    onChange={handleCityChange}
+                                    sx={{ minWidth: 300 }}
+                                />
+                            </Grid>
+                            <Grid item xs={2.55}>
+                                <TextField 
+                                    id="outlined-basic" 
+                                    label="State" 
+                                    variant="outlined" 
+                                    value={state} 
+                                    onChange={handleStateChange}
+                                    sx={{ minWidth: 100 }}
+                                />
+                            </Grid>
+                            <Grid item xs={2.55}>
+                                <TextField 
+                                    id="outlined-basic" 
+                                    label="Zip code" 
+                                    variant="outlined" 
+                                    value={zip} 
+                                    onChange={handleZipChange}
+                                    sx={{ minWidth: 100 }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button variant="contained" className="create-btn" onClick={handleSubmit}>Create booking</Button>
+                            </Grid>
+                        </Grid>
+                        </form>
+                    </Box>
+                </Paper>
             </StyledModal>
         </div>
     );
