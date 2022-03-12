@@ -12,6 +12,7 @@ const bookingController = {
                 .select('booking')
                 .from(Booking, 'booking')
                 .innerJoinAndSelect('booking.address', 'address')
+                .orderBy('booking.date', 'ASC')
                 .getMany();
     
             res.status(200).send(bookings);
