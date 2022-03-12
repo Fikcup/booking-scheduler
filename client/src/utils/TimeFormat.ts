@@ -1,8 +1,10 @@
 const timeFormat = (t: string) => {
     const time = t.split(':');
+    let offset = new Date().getTimezoneOffset();
+    let totalMinutes = parseInt(time[0]) * 60 + parseInt(time[1]) - offset;
 
-    let hours = Number(time[0]);
-    let minutes = Number(time[1]);
+    let hours = Math.floor(totalMinutes / 60);
+    let minutes = totalMinutes % 60;
     
     let timeValue;
     
