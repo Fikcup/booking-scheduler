@@ -146,9 +146,13 @@ const CreateBooking = () => {
                                         time: values.time!.toISOString().slice(11, 19)
                                     }
                                     await axios.post('http://localhost:3001/api/bookings', formData)
-                                        .then(() => {
-                                            handleClose();
-                                            window.location.reload();
+                                        .then((data) => {
+                                            if (data.data.message === 'Cannot contain duplicate entries') {
+                                                alert('This appointment slot is already booked.');
+                                            } else {
+                                                handleClose();
+                                                window.location.reload();
+                                            }
                                         })
                                         .catch(err => console.error(err));
                                     

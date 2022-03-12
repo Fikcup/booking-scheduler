@@ -22,8 +22,6 @@ const bookingController = {
         }
     },
     async createBooking(req: Request, res: Response) {
-        // TODO: create safeguard for appointment time double booking
-
         const addressObj: AddressDto = {
             street: req.body.street,
             city: req.body.city,
@@ -71,7 +69,11 @@ const bookingController = {
             res.status(200).send(bookingObj);
         } catch (err: any) { 
             console.error(err);
-            res.status(500).send(err.message); 
+            if (err.errno === 1062) {
+                res.status(200).send({ message: 'Cannot contain duplicate entries' })
+            } else {
+                res.status(500).send(err.message); 
+            }
         }
     }
 }
