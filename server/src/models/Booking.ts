@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, Unique } from 'typeorm';
 import {
     IsEmail,
     IsDate,
@@ -24,6 +24,7 @@ export enum BookingType {
 }
 
 @Entity()
+@Unique('date_time', ['date', 'time'])
 export class Booking {  
     @PrimaryGeneratedColumn()
     id: number;
