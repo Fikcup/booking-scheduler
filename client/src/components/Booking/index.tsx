@@ -19,7 +19,7 @@ const Booking = () => {
 
     useEffect(() => {
         const getBookings = async () => {
-            await axios.get(`https://serene-inlet-73438.herokuapp.com/api/bookings`)
+            await axios.get(`api/bookings`)
                 .then((bookings) => setBookings(bookings.data))
                 .catch((err) => console.error(err));
         }
