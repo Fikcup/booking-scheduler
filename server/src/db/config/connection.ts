@@ -16,7 +16,8 @@ const connection = createConnection(process.env.NODE_ENV === 'production' ? {
     username: process.env.USER,
     password: process.env.PASSWORD,
     database: process.env.DB,
-    entities: [Booking, Address]
+    entities: [Booking, Address],
+    synchronize: true
 });
 
 export default connection;
