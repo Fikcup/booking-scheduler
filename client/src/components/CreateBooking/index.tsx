@@ -10,11 +10,13 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    SelectChangeEvent,
     FormControl,
     Paper,
-    Grid
+    Grid,
+    FormHelperText
 } from '@mui/material';
+import { Formik, FormikProps, Form } from 'formik';
+import * as yup from 'yup';
 import axios from 'axios';
 
 const StyledModal = styled(ModalUnstyled)`
@@ -50,70 +52,59 @@ const style = {
 };
 
 const CreateBooking = () => {
-    // TODO: add form field validation
-
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [name, setName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [street, setStreet] = React.useState('');
-    const [city, setCity] = React.useState('');
-    const [state, setState] = React.useState('');
-    const [zip, setZip] = React.useState('');
-    const [type, setType] = React.useState('');
-    const [date, setDate] = React.useState<Date | null>(new Date());
-    const [time, setTime] = React.useState<Date | null>(new Date());
 
-    const handleTypeChange = (e: SelectChangeEvent) => {
-        setType(e.target.value);
-    };
+    const validationSchema = yup.object({
+        name: yup
+            .string()
+            .min(2, 'Name should be at least 2 characters')
+            .required('Name is required'),
+        email: yup
+            .string()
+            .email('Enter a valid email')
+            .min(5, 'Email should be at least 5 characters')
+            .required('Email is required'),
+        street: yup
+            .string()
+            .min(5, 'Address should be at least 5 characters')
+            .required('Address is required'),
+        city: yup
+            .string()
+            .min(2, 'City should be at least 2 characters')
+            .required('City is required'),
+        state: yup
+            .string()
+            .min(2, 'State code should be 2 characters')
+            .max(2, 'State code should be 2 characters')
+            .required('State is required'),
+        zip: yup
+            .string()
+            .min(5, 'Zip code should be 5 characters')
+            .max(5, 'Zip code should be 5 characters')
+            .required('Zip code is required'),
+        type: yup
+            .string()
+            .required('Please select a booking type'),
+        date: yup
+            .date()
+            .required('Please select a date'),
+        time: yup
+            .date()
+            .required('Please select a time')
+    });
 
-    const handleNameChange = (e: any) => {
-        setName(e.target.value);
-    };
-
-    const handleEmailChange = (e: any) => {
-        setEmail(e.target.value);
-    };
-
-    const handleStreetChange = (e: any) => {
-        setStreet(e.target.value);
-    };
-
-    const handleCityChange = (e: any) => {
-        setCity(e.target.value);
-    };
-
-    const handleStateChange = (e: any) => {
-        setState(e.target.value);
-    };
-
-    const handleZipChange = (e: any) => {
-        setZip(e.target.value);
-    };
-
-    const handleSubmit = () => {
-        const formData = {
-            name,
-            email,
-            street,
-            city,
-            state,
-            zip,
-            type,
-            date: date!.toISOString().slice(0, 9),
-            time: time!.toISOString().slice(11, 19)
-        }
-
-        axios.post('http://localhost:3001/api/bookings', formData)
-            .then(data => {
-                console.log(data.data);
-            })
-            .catch(err => console.error(err));
-        
-        handleClose();
-        window.location.reload();
+    interface FormValues {
+        name: string;
+        email: string;
+        street: string;
+        city: string;
+        state: string;
+        zip: string;
+        type: string;
+        date: Date | null;
+        time: Date | null;
     }
 
     return (
@@ -129,112 +120,193 @@ const CreateBooking = () => {
                 <Paper>
                     <Box sx={style}>
                         <h2 id="unstyled-modal-title">Create booking</h2>
-                        <form>
-                        <Grid container spacing={4} justify-content="space-between">
-                            <Grid item xs={6}>
-                                <TextField 
-                                    id="outlined-basic" 
-                                    label="Name" 
-                                    variant="outlined" 
-                                    value={name} 
-                                    onChange={handleNameChange}
-                                    sx={{ minWidth: 300 }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <FormControl required sx={{ minWidth: 300 }} >
-                                    <InputLabel id="demo-simple-select-helper-label">Booking type</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-helper-label"
-                                        id="demo-simple-select-helper"
-                                        value={type}
-                                        label="Booking type"
-                                        onChange={handleTypeChange}
-                                    >
-                                        <MenuItem value={'housekeeping'}>Housekeeping</MenuItem>
-                                        <MenuItem value={'dog walk'}>Dog Walk</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField 
-                                    id="outlined-basic" 
-                                    label="Email" 
-                                    variant="outlined" 
-                                    value={email} 
-                                    onChange={handleEmailChange} 
-                                    sx={{ minWidth: 300 }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns} >
-                                    <DatePicker
-                                        label="Booking Date"
-                                        value={date}
-                                        onChange={(date) => {
-                                            setDate(date);
-                                        }}
-                                        renderInput={(params) => <TextField {...params} sx={{ minWidth: 300 }} />}
-                                    />
-                                </LocalizationProvider>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField 
-                                    id="outlined-basic" 
-                                    label="Street Address" 
-                                    variant="outlined" 
-                                    value={street} 
-                                    onChange={handleStreetChange} 
-                                    sx={{ minWidth: 300 }} 
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns} >
-                                    <TimePicker
-                                        label="Booking Time"
-                                        value={time}
-                                        onChange={(newTime) => {
-                                            setTime(newTime);
-                                        }}
-                                        renderInput={(params) => <TextField {...params} sx={{ minWidth: 300 }} />}
-                                    />
-                                </LocalizationProvider>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField 
-                                    id="outlined-basic" 
-                                    label="City" 
-                                    variant="outlined"
-                                    value={city} 
-                                    onChange={handleCityChange}
-                                    sx={{ minWidth: 300 }}
-                                />
-                            </Grid>
-                            <Grid item xs={2.55}>
-                                <TextField 
-                                    id="outlined-basic" 
-                                    label="State" 
-                                    variant="outlined" 
-                                    value={state} 
-                                    onChange={handleStateChange}
-                                    sx={{ minWidth: 100 }}
-                                />
-                            </Grid>
-                            <Grid item xs={2.55}>
-                                <TextField 
-                                    id="outlined-basic" 
-                                    label="Zip code" 
-                                    variant="outlined" 
-                                    value={zip} 
-                                    onChange={handleZipChange}
-                                    sx={{ minWidth: 100 }}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" className="create-btn" onClick={handleSubmit}>Create booking</Button>
-                            </Grid>
-                        </Grid>
-                        </form>
+                        <Formik
+                                initialValues = {{
+                                    name: '',
+                                    email: '',
+                                    street: '',
+                                    city: '',
+                                    state: '',
+                                    zip: '',
+                                    type: '',
+                                    date: null,
+                                    time: null
+                                }}
+                                validationSchema = {validationSchema}
+                                onSubmit = {async ( values: FormValues) => {
+                                    const formData = {
+                                        name: values.name,
+                                        email: values.email,
+                                        street: values.street,
+                                        city: values.city,
+                                        state: values.state,
+                                        zip: values.zip,
+                                        type: values.type,
+                                        date: values.date!.toISOString().slice(0, 9),
+                                        time: values.time!.toISOString().slice(11, 19)
+                                    }
+                                    await axios.post('http://localhost:3001/api/bookings', formData)
+                                        .then(() => {
+                                            handleClose();
+                                            window.location.reload();
+                                        })
+                                        .catch(err => console.error(err));
+                                    
+                                }}
+                        >
+                            {(formikProps: FormikProps<FormValues>) => (
+                                <Form onSubmit={formikProps.handleSubmit}>
+                                    <Grid container spacing={4} justify-content="space-between">
+                                        <Grid item xs={6}>
+                                            <TextField 
+                                                id="outlined-basic" 
+                                                label="Name" 
+                                                variant="outlined" 
+                                                value={formikProps.values.name} 
+                                                onChange={formikProps.handleChange('name')}
+                                                sx={{ minWidth: 300 }}
+                                                helperText={
+                                                    formikProps.errors.name &&
+                                                    formikProps.touched.name &&
+                                                    String(formikProps.errors.name)
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <FormControl required sx={{ minWidth: 300 }} >
+                                                <InputLabel id="demo-simple-select-helper-label">Booking type</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-helper-label"
+                                                    id="demo-simple-select-helper"
+                                                    value={formikProps.values.type}
+                                                    label="Booking type"
+                                                    onChange={(e) => {
+                                                        formikProps.setFieldValue('type', e.target.value);
+                                                    }}
+                                                >
+                                                    <MenuItem value={'housekeeping'}>Housekeeping</MenuItem>
+                                                    <MenuItem value={'dog walk'}>Dog Walk</MenuItem>
+                                                </Select>
+                                                {formikProps.errors.type &&
+                                                    formikProps.touched.name &&
+                                                    String(formikProps.errors.type) ? <FormHelperText>{formikProps.errors.type}</FormHelperText> : <></>
+                                                }
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField 
+                                                id="outlined-basic" 
+                                                label="Email" 
+                                                variant="outlined" 
+                                                value={formikProps.values.email} 
+                                                onChange={formikProps.handleChange('email')} 
+                                                sx={{ minWidth: 300 }}
+                                                helperText={
+                                                    formikProps.errors.email &&
+                                                    formikProps.touched.email &&
+                                                    String(formikProps.errors.email)
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <LocalizationProvider dateAdapter={AdapterDateFns} >
+                                                <DatePicker
+                                                    label="Booking Date"
+                                                    value={formikProps.values.date}
+                                                    onChange={(newValue) => {
+                                                        formikProps.setFieldValue('date', newValue);
+                                                    }}
+                                                    renderInput={(params) => <TextField {...params} sx={{ minWidth: 300 }} onChange={(e) => {
+                                                        formikProps.handleChange('date');
+                                                    }}/>}
+                                                />
+                                            </LocalizationProvider>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField 
+                                                id="outlined-basic" 
+                                                label="Street Address" 
+                                                variant="outlined" 
+                                                value={formikProps.values.street} 
+                                                onChange={formikProps.handleChange('street')} 
+                                                sx={{ minWidth: 300 }} 
+                                                helperText={
+                                                    formikProps.errors.street &&
+                                                    formikProps.touched.street &&
+                                                    String(formikProps.errors.street)
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <LocalizationProvider dateAdapter={AdapterDateFns} >
+                                                <TimePicker
+                                                    label="Booking Time"
+                                                    value={formikProps.values.time}
+                                                    onChange={(newValue) => {
+                                                        formikProps.setFieldValue('time', newValue);
+                                                    }}
+                                                    renderInput={(params) => <TextField {...params} sx={{ minWidth: 300 }} />}
+                                                />
+                                            </LocalizationProvider>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField 
+                                                id="outlined-basic" 
+                                                label="City" 
+                                                variant="outlined"
+                                                value={formikProps.values.city} 
+                                                onChange={formikProps.handleChange('city')}
+                                                sx={{ minWidth: 300 }}
+                                                helperText={
+                                                    formikProps.errors.city &&
+                                                    formikProps.touched.city &&
+                                                    String(formikProps.errors.city)
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={2.55}>
+                                            <TextField 
+                                                id="outlined-basic" 
+                                                label="State" 
+                                                variant="outlined" 
+                                                value={formikProps.values.state} 
+                                                onChange={formikProps.handleChange('state')}
+                                                sx={{ minWidth: 100 }}
+                                                helperText={
+                                                    formikProps.errors.state &&
+                                                    formikProps.touched.state &&
+                                                    String(formikProps.errors.state)
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={2.55}>
+                                            <TextField 
+                                                id="outlined-basic" 
+                                                label="Zip code" 
+                                                variant="outlined" 
+                                                value={formikProps.values.zip} 
+                                                onChange={formikProps.handleChange('zip')}
+                                                sx={{ minWidth: 100 }}
+                                                helperText={
+                                                    formikProps.errors.zip &&
+                                                    formikProps.touched.zip &&
+                                                    String(formikProps.errors.zip)
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button 
+                                                type="submit" 
+                                                variant="contained" className="create-btn" 
+                                                disabled={formikProps.isSubmitting}
+                                            >
+                                                Create booking
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Form> 
+                            )} 
+                        </Formik>
                     </Box>
                 </Paper>
             </StyledModal>
