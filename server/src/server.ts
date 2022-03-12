@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 
 import connection from './db/config/connection';
 import routes from './routes';
@@ -14,9 +15,13 @@ app.use(express.urlencoded({
 app.use(cors());
 app.use(routes);
 
-if (process.env.NODE_ENV !== 'production') {
-    app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
 }
+  
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 connection
     .then(() => {
