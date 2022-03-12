@@ -19,7 +19,7 @@ const Booking = () => {
 
     useEffect(() => {
         const getBookings = async () => {
-            await axios.get(`${process.env.BASE_URL}/api/bookings`)
+            await axios.get(`/api/bookings`)
                 .then((bookings) => setBookings(bookings.data))
                 .catch((err) => console.error(err));
         }
