@@ -14,6 +14,10 @@ app.use(express.urlencoded({
 app.use(cors());
 app.use(routes);
 
+if (process.env.NODE_ENV !== 'production') {
+    app.use(express.static('client/build'));
+}
+
 connection
     .then(() => {
         console.log('Successfully connected to the database');

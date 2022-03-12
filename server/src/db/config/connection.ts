@@ -6,7 +6,10 @@ import { Booking, Address } from '../../models';
 
 dotenv.config();
 
-const connection = createConnection({
+const connection = createConnection(process.env.NODE_ENV === 'production' ? {
+    type: 'mysql',
+    url: process.env.JAWSDB_URL
+} : {
     type: 'mysql',
     host: process.env.HOST,
     port: 3306,
