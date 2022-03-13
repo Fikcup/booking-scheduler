@@ -8,7 +8,9 @@ dotenv.config();
 
 const connection = createConnection(process.env.NODE_ENV === 'production' ? {
     type: 'mysql',
-    url: process.env.JAWSDB_URL
+    url: process.env.JAWSDB_URL,
+    entities: [Booking, Address],
+    synchronize: true
 } : {
     type: 'mysql',
     host: process.env.HOST,
