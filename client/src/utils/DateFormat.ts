@@ -1,3 +1,10 @@
+/**
+ * DateFormat
+ * Author: Rhys Wright
+ * Description: Formats date to display full month name to increase consistency
+ * Usage: Display date with full month name
+ */
+
 import { parseISO } from 'date-fns';
 
 const dateFormat = (date: string) => {

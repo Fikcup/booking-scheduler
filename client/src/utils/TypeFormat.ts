@@ -1,3 +1,10 @@
+/**
+ * TypeFormat
+ * Author: Rhys Wright
+ * Description: Capitalize first letter of every word in a string
+ * Usage: Formats booking type to have capital starting letters
+ */
+
 const typeFormat = (type: string) => {
     const words = type.split(' ');
 

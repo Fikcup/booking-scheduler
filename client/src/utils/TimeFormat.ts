@@ -1,3 +1,10 @@
+/**
+ * TimeFormat
+ * Author: Rhys Wright
+ * Description: Takes a date object, accounts for timezone offset, and formats the date to be 4:00 PM or similar
+ * Usage: Format dates to account for timezone and improve readability of the timestamp
+ */
+
 const timeFormat = (t: string) => {
     const time = t.split(':');
     let offset = new Date().getTimezoneOffset();
