@@ -1,3 +1,10 @@
+/**
+ * Booking
+ * Author: Rhys Wright
+ * Description: Pulls booking data from the API and formats the information into a table for the user to view
+ * Usage: Display table of booking data to the user 
+ */
+
 import React, { useState, useEffect } from 'react';
 import { 
     TableContainer, 

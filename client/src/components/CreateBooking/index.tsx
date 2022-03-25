@@ -1,3 +1,9 @@
+/**
+ * CreateBooking
+ * Author: Rhys Wright
+ * Description: Displays a modal with a form to create a new booking and utilizes form field validation
+ * Usage: Form to create a new booking
+ */
 import React from 'react';
 import { styled, Box } from '@mui/system';
 import { LocalizationProvider, DatePicker } from '@mui/lab';
