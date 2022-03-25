@@ -1,3 +1,9 @@
+/**
+ * Booking
+ * Author: Rhys Wright
+ * Description: Defines the Booking table and uses validation to ensure that the booking type is a valid value
+ * Usage: Create booking table
+ */
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, Unique } from 'typeorm';
 import {
     IsEmail,

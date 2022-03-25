@@ -1,3 +1,9 @@
+/**
+ * booking-controller
+ * Author: Rhys Wright
+ * Description: Booking functions to utilize on route endpoints to GET and POST data to the database
+ * Usage: Get all booking data and create a new booking
+ */
 import { Request, Response } from 'express';
 import { getConnection } from 'typeorm';
 

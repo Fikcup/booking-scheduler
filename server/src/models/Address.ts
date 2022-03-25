@@ -1,3 +1,9 @@
+/**
+ * Address
+ * Author: Rhys Wright
+ * Description: Defines the Address table and uses validation to ensure that the address is valid
+ * Usage: Create Address table
+ */
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { IsNotEmpty, Matches } from 'class-validator';
 
