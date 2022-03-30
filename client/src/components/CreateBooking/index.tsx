@@ -4,6 +4,7 @@
  * Description: Displays a modal with a form to create a new booking and utilizes form field validation
  * Usage: Form to create a new booking
  */
+
 import React from 'react';
 import { styled, Box } from '@mui/system';
 import { LocalizationProvider, DatePicker } from '@mui/lab';
@@ -148,16 +149,17 @@ const CreateBooking = () => {
                                         state: values.state,
                                         zip: values.zip,
                                         type: values.type,
-                                        date: values.date!.toISOString().slice(0, 9),
+                                        date: values.date!.toISOString().slice(0, 10),
                                         time: values.time!.toISOString().slice(11, 19)
                                     }
-                                    await axios.post(`api/bookings`, formData)
+
+                                    await axios.post(`/api/bookings`, formData)
                                         .then((data) => {
                                             if (data.data.message === 'Cannot contain duplicate entries') {
                                                 alert('This appointment slot is already booked.');
                                             } else {
                                                 handleClose();
-                                                window.location.reload();
+                                                // window.location.reload();
                                             }
                                         })
                                         .catch(err => console.error(err));

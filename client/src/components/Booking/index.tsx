@@ -17,8 +17,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-import dateFormat from '../../utils/DateFormat';
-import timeFormat from '../../utils/TimeFormat';
+import dateTimeFormat from '../../utils/DateTimeFormat';
 import typeFormat from '../../utils/TypeFormat';
 
 const Booking = () => {
@@ -26,7 +25,7 @@ const Booking = () => {
 
     useEffect(() => {
         const getBookings = async () => {
-            await axios.get(`api/bookings`)
+            await axios.get(`/api/bookings`)
                 .then((bookings) => setBookings(bookings.data))
                 .catch((err) => console.error(err));
         }
@@ -59,7 +58,7 @@ const Booking = () => {
                                 {booking.address.city}, {booking.address.state}, {booking.address.zip}
                             </TableCell>
                             <TableCell align="left">{typeFormat(booking.type)}</TableCell>
-                            <TableCell align="right">{dateFormat(booking.date)} at {timeFormat(booking.time)}</TableCell>
+                            <TableCell align="right">{dateTimeFormat(booking.date, booking.time)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
