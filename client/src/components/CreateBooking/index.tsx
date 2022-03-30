@@ -159,7 +159,7 @@ const CreateBooking = () => {
                                                 alert('This appointment slot is already booked.');
                                             } else {
                                                 handleClose();
-                                                // window.location.reload();
+                                                window.location.reload();
                                             }
                                         })
                                         .catch(err => console.error(err));
