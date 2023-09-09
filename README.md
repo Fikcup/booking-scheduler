@@ -1,7 +1,7 @@
 <!-- PROJECT INTRODUCTION -->
 <br />
 <p align="center">
-  <h3 align="center">Booking Application</h3>
+  <h3 align="center">Booking Scheduler</h3>
 
   <p align="center">
     A fullstack booking application with form field validation utilizing Material UI and Formik.
