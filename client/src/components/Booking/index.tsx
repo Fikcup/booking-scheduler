@@ -13,7 +13,8 @@ import {
     TableRow, 
     TableCell, 
     Paper, 
-    Table 
+    Table,
+    Pagination 
 } from '@mui/material';
 import axios from 'axios';
 
@@ -61,6 +62,7 @@ const Booking = () => {
                             <TableCell align="right">{dateTimeFormat(booking.date, booking.time)}</TableCell>
                         </TableRow>
                     ))}
+                    <Pagination count={10} showFirstButton showLastButton />
                 </TableBody>
             </Table>
         </TableContainer>
