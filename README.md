@@ -41,10 +41,8 @@ To get a local copy up and running follow these simple steps.
 2. Install Dependencies
     ```sh
     npm install
-    cd client
-    npm install
-    cd ../server
-    npm install
+    npm run install-client
+    npm run install-server
     ```
 3. Add a .env file in the server folder with your database name, host, and password.
 4. Execute the schema file in MySQL workbench or MySQL shell
