@@ -15,7 +15,7 @@
 ## About The Project
 
 ![Booking Screenshot](./assets/booking.PNG)
-Project Link: [Booking](https://serene-inlet-73438.herokuapp.com/)
+Project Link: [Booking](https://booking-scheduler-3a70524e744c.herokuapp.com/)
 
 ### Built With
 
